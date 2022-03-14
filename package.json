@@ -1,0 +1,40 @@
+{
+  "name": "badass-contract",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "es": "node -r esbuild-register"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-truffle5": "^2.0.3",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@nomiclabs/hardhat-web3": "^2.0.0",
+    "@typechain/ethers-v5": "^9.0.0",
+    "@typechain/hardhat": "^4.0.0",
+    "@types/chai": "^4.3.0",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^17.0.19",
+    "chai": "^4.3.4",
+    "erc721a": "^3.0.0",
+    "esbuild": "^0.14.8",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.4.6",
+    "hardhat": "^2.6.4",
+    "hardhat-gas-reporter": "^1.0.8",
+    "ts-node": "^10.5.0",
+    "typechain": "^7.0.0",
+    "typescript": "^4.5.5",
+    "web3": "^1.6.1"
+  },
+  "dependencies": {
+    "@chainlink/contracts": "^0.3.1",
+    "@nomiclabs/hardhat-etherscan": "^3.0.0",
+    "@openzeppelin/contracts": "^4.3.2",
+    "@openzeppelin/hardhat-upgrades": "^1.10.0",
+    "esbuild-register": "^3.2.1",
+    "keccak256": "^1.0.6",
+    "merkletreejs": "^0.2.27"
+  }
+}
