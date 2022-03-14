@@ -2,7 +2,7 @@ import { ethers } from 'hardhat';
 
 async function main() {
   const BadassContract = await ethers.getContractFactory("BadassApeNFTClub");
-  const badassContract = await BadassContract.deploy();
+  const badassContract = await BadassContract.deploy("Badass Ape NFT Club", "BANC");
 
   console.log("Badass deployed to:", badassContract.address);
 }
