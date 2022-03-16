@@ -99,7 +99,7 @@ contract BadassApeNFTClub is Ownable, ERC721A, ReentrancyGuard {
         if (!_exists(tokenId)) revert URIQueryForNonexistentToken();
 
         if(revealed == false) {
-            return string(_nonRevealedURI);
+            return bytes(_nonRevealedURI).length != 0 ? string(abi.encodePacked(_nonRevealedURI, tokenId.toString())) : '';
         }
 
         string memory baseURI = _baseURI();

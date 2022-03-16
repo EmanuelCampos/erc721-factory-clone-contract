@@ -18,7 +18,7 @@ describe("NFTCollection", function () {
 
     // Deploy Mallards Contract
     const NFTCollectionContract = (await ethers.getContractFactory("BadassApeNFTClub")) as NFTCollection__factory;
-    nftCollection = await NFTCollectionContract.deploy("Test Contract", "TEST", "ipfs://abcdefg/revealed.json");
+    nftCollection = await NFTCollectionContract.deploy("Test Contract", "TEST", "ipfs://abcdefg/");
     await nftCollection.deployed();
   });
 
@@ -91,7 +91,7 @@ describe("NFTCollection", function () {
   
     const uri = await nftCollection.tokenURI(0)
 
-    expect(uri).to.equal("ipfs://abcdefg/revealed.json");
+    expect(uri).to.equal("ipfs://abcdefg/0");
   });
 
   it("Should be able to get revelead uri after reveal", async function () {
