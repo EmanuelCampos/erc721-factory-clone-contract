@@ -24,7 +24,7 @@ contract BadassApeNFTClub is Ownable, ERC721A, ReentrancyGuard {
     
     bool private revealed = false;
 
-    bytes32 public merkleRoot = 0xb30c8e5d97ca71e4572f98588558b8029c543540e57f9275915ecd2c58922e6e;
+    bytes32 public merkleRoot = 0x4187cfabef52442e6a7cf5c041d3bb146aa490821d157ce0a832ce4d711bb73e;
 
     mapping(address => uint256) private _allowList;
     mapping(address => uint256) private _allowListMerkleTree;
