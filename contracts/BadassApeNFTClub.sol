@@ -5,18 +5,23 @@ pragma solidity ^0.8.7;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
+import '@openzeppelin/contracts/utils/Strings.sol';
 import "erc721a/contracts/ERC721A.sol";
 
 contract BadassApeNFTClub is Ownable, ERC721A, ReentrancyGuard {
-    bool public saleIsActive = false;
-    bool public isAllowListActive= false;
+    using Strings for uint256;
 
+    bool public saleIsActive = false;
+    bool public preSalesIsActive = false;
+
+    string private _nonRevealedURI;
     string private _baseURIextended;
 
     uint256 public constant MAX_SUPPLY = 8888;
     uint256 public constant MAX_PUBLIC_MINT = 3;
     uint256 public constant PRICE_PER_TOKEN_SALES = 0.15 ether;
     uint256 public constant PRICE_PER_TOKEN_PRE_SALES = 0.10 ether;
+    bool private revealed = false;
 
     bytes32 public merkleRoot = 0xd4453790033a2bd762f526409b7f358023773723d9e9bc42487e4996869162b6;
 
@@ -30,12 +35,18 @@ contract BadassApeNFTClub is Ownable, ERC721A, ReentrancyGuard {
 
     constructor(
         string memory name,
-        string memory symbol
+        string memory symbol,
+        string memory nonRevealedURI
     ) ERC721A(name, symbol) {
+        _nonRevealedURI = nonRevealedURI;
     }
 
-    function setAllowListActive(bool _isAllowListActive) external onlyOwner {
-        isAllowListActive = _isAllowListActive;
+    function setPreSalesActive(bool _isPreSalesActive) external onlyOwner {
+        preSalesIsActive = _isPreSalesActive;
+    }
+
+    function setReveal(bool _revealState) external onlyOwner {
+        revealed = _revealState;
     }
 
     function setAllowList(address[] calldata addresses, uint8 numAllowedToMint) external onlyOwner {
@@ -49,7 +60,7 @@ contract BadassApeNFTClub is Ownable, ERC721A, ReentrancyGuard {
     }
 
     function mintAllowList(uint256 numberOfTokens, bytes32[] calldata _merkleProof, uint listType) external payable callerIsUser{
-        require(isAllowListActive, "Allow list is not active");
+        require(preSalesIsActive, "Allow list is not active");
         require(totalSupply() + numberOfTokens <= MAX_SUPPLY, "Purchase would exceed max tokens");
         
         require(listType == 0 || listType == 1, "Invalid list type");
@@ -82,6 +93,17 @@ contract BadassApeNFTClub is Ownable, ERC721A, ReentrancyGuard {
     function reserve(uint256 numberOfTokens) external onlyOwner {
         require(totalSupply() + numberOfTokens <= MAX_SUPPLY, "Purchase would exceed max tokens");
         _safeMint(msg.sender, numberOfTokens);
+    }
+
+    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+        if (!_exists(tokenId)) revert URIQueryForNonexistentToken();
+
+        if(revealed == false) {
+            return string(_nonRevealedURI);
+        }
+
+        string memory baseURI = _baseURI();
+        return bytes(baseURI).length != 0 ? string(abi.encodePacked(baseURI, tokenId.toString())) : '';
     }
 
     function setSaleState(bool newState) external onlyOwner {

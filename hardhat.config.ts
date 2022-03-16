@@ -1,6 +1,7 @@
 import { task } from "hardhat/config";
 import '@typechain/hardhat'
 import '@nomiclabs/hardhat-ethers'
+import "@nomiclabs/hardhat-etherscan";
 import '@nomiclabs/hardhat-waffle'
 import "hardhat-gas-reporter"
 import dotenv from "dotenv"
@@ -26,6 +27,9 @@ export default {
       url: process.env.RINKEBY_URL || "",
       accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
+  },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY,
   },
   typechain: {
     outDir: 'types',
