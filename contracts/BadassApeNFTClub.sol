@@ -18,12 +18,13 @@ contract BadassApeNFTClub is Ownable, ERC721A, ReentrancyGuard {
     string private _baseURIextended;
 
     uint256 public constant MAX_SUPPLY = 8888;
-    uint256 public constant MAX_PUBLIC_MINT = 3;
+    uint256 public constant MAX_PUBLIC_MINT = 5;
     uint256 public constant PRICE_PER_TOKEN_SALES = 0.15 ether;
     uint256 public constant PRICE_PER_TOKEN_PRE_SALES = 0.10 ether;
+    
     bool private revealed = false;
 
-    bytes32 public merkleRoot = 0xd4453790033a2bd762f526409b7f358023773723d9e9bc42487e4996869162b6;
+    bytes32 public merkleRoot = 0xb30c8e5d97ca71e4572f98588558b8029c543540e57f9275915ecd2c58922e6e;
 
     mapping(address => uint256) private _allowList;
     mapping(address => uint256) private _allowListMerkleTree;
@@ -70,7 +71,7 @@ contract BadassApeNFTClub is Ownable, ERC721A, ReentrancyGuard {
         require(listType == 0 || listType == 1, "Invalid list type");
 
         if(listType == 0) {
-            require(numberOfTokens + _allowListMerkleTree[msg.sender] <= 2, "Exceeded max available to purchase");
+            require(numberOfTokens + _allowListMerkleTree[msg.sender] <= 3, "Exceeded max available to purchase");
             
             bytes32 leaf = keccak256(abi.encodePacked(msg.sender));
             require(MerkleProof.verify(_merkleProof, merkleRoot, leaf), "Invalid proof");
