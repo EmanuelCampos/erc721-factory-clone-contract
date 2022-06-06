@@ -6,7 +6,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "hardhat/console.sol";
 
 contract Staking is Ownable {
     using SafeERC20 for IERC20;
@@ -52,8 +51,8 @@ contract Staking is Ownable {
         if(user.amount != 0) {
             uint256 pending = user.amount.mul(stokenPerBlock(user.lastReward));
 
-            user.rewardDebt.add(pending);
-            user.lastReward = block.number;
+            user.rewardDebt = user.rewardDebt.add(pending);
+            user.lastReward = user.lastReward = block.number;
         }
 
         user.amount = user.amount.add(amount);
@@ -75,12 +74,12 @@ contract Staking is Ownable {
     function claim() public {
         UserInfo storage user = userInfo[msg.sender];
 
-        uint256 pending = user.amount.mul(stokenPerBlock(user.lastReward));
+        uint256 pending = user.amount.mul(stokenPerBlock(user.lastReward)).add(user.rewardDebt);
 
         _stoken.safeTransfer(msg.sender, pending);
 
-        user.lastReward = block.number;
-        user.rewardDebt = 0;
+        user.lastReward = user.lastReward = block.number;
+        user.rewardDebt = user.rewardDebt = 0;
 
         emit Claimed(msg.sender, pending);
     }
@@ -88,7 +87,7 @@ contract Staking is Ownable {
     function pendingRewards(address address_) public view returns(uint256) {
         UserInfo storage user = userInfo[address_];
         
-        uint256 pending = user.amount.mul(stokenPerBlock(user.lastReward));
+        uint256 pending = user.amount.mul(stokenPerBlock(user.lastReward)).add(user.rewardDebt);
 
         return pending;
     }

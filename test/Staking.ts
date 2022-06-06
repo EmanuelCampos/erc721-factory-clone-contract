@@ -120,14 +120,20 @@ describe("ERC20 Staking Base", function () {
 
       await erc20staking.stake(2);
 
-      await mineNBlocks(HALF_HUNDRED_BLOCKS);
+      const u = await erc20staking.userInfo(owner.address);
+      
+      expect(ethers.utils.formatEther(u.rewardDebt)).to.be.equal('204.0');
 
+      await mineNBlocks(HALF_HUNDRED_BLOCKS);
+      
       const pending = await erc20staking.pendingRewards(owner.address);
-      const formatedPending = ethers.utils.formatEther(pending);
 
       await erc20staking.claim();
+      
+      const u2 = await erc20staking.userInfo(owner.address);
 
-      expect(formatedPending).to.be.equal('400.0');
+      expect(ethers.utils.formatEther(pending)).to.be.equal('604.0');
+      expect(u2.rewardDebt).to.be.equal(0);
     });
   })
 
