@@ -24,7 +24,7 @@ export default {
   solidity: "0.8.7",
   networks: {
     rinkeby: {
-      url: process.env.RINKEBY_URL || "",
+      url: process.env.MUMBAI_URL || "",
       accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
   },
