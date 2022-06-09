@@ -1,5 +1,5 @@
 {
-  "name": "erc20-staking",
+  "name": "erc721-factory-clone-contract",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -33,6 +33,7 @@
     "@chainlink/contracts": "^0.3.1",
     "@nomiclabs/hardhat-etherscan": "^3.0.3",
     "@openzeppelin/contracts": "^4.3.2",
+    "@openzeppelin/contracts-upgradeable": "^4.6.0",
     "@openzeppelin/hardhat-upgrades": "^1.10.0",
     "esbuild-register": "^3.2.1",
     "keccak256": "^1.0.6",

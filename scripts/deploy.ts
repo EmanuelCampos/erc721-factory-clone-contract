@@ -1,21 +1,16 @@
 import { ethers } from 'hardhat';
 
 async function main() {
-  const Token = await ethers.getContractFactory("Token");
-  const token = await Token.deploy();
-  await token.deployed();
+  const ERC721Factory = await ethers.getContractFactory("ERC721Factory");
+  const erc721factory = await ERC721Factory.deploy();
+  await erc721factory.deployed();
 
-  const sToken = await ethers.getContractFactory("sToken");
-  const stoken = await sToken.deploy();
-  await stoken.deployed();
+  const tx = await erc721factory.create("Collection1", "CC1");
+  const { events } = await tx.wait();
+  const { address } = events.find(Boolean);
 
-  const ERC20Staking = await ethers.getContractFactory("ERC20Staking");
-  const erc20staking = await ERC20Staking.deploy(token.address, stoken.address);
-  await erc20staking.deployed();
-
-  console.log("ERC20 Staking deployed to:", erc20staking.address);
-  console.log("Token deployed to:", token.address);
-  console.log("Stoken deployed to:", stoken.address);
+  console.log("Factory Contract address", erc721factory.address)
+  console.log("First contract address", address)
 }
 
 main()

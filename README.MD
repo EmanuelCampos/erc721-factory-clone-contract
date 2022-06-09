@@ -1,4 +1,6 @@
-## ERC20 Staking
+## ERC721 Factory Clone Contract
+
+A implementation using minimal proxy with clone: https://docs.openzeppelin.com/contracts/4.x/api/proxy#Clones
 
 1. install the packages.
 `yarn install`
